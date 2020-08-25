@@ -408,6 +408,7 @@ static hook_t g_hooks[] = {
 	HOOK(ntdll, RtlCompressBuffer),
 	HOOK(kernel32, GetSystemInfo),
 	HOOK(kernel32, EnumSystemFirmwareTables),
+	HOOK(kernel32, GetSystemFirmwareTable),
 	HOOK(ntdll, NtQuerySystemInformation),
 	HOOK(setupapi, SetupDiGetClassDevsA),
 	HOOK(setupapi, SetupDiGetClassDevsW),

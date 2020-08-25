@@ -700,11 +700,30 @@ HOOKDEF(UINT, WINAPI, EnumSystemFirmwareTables,
 	__out   PVOID pFirmwareTableEnumBuffer,
 	__in    DWORD BufferSize
 ) {
-	UINT ret = Old_EnumSystemFirmwareTables(FirmwareTableProviderSignature, pFirmwareTableEnumBuffer, BufferSize);
-	LOQ_nonzero("system", "p", "pFirmwareTableEnumBuffer", pFirmwareTableEnumBuffer);
+
+	// Substitute pFirwareTableBuffer
+	PBYTE my_firmwareTable = (PBYTE)(malloc(BufferSize));
+
+	UINT ret = Old_EnumSystemFirmwareTables(FirmwareTableProviderSignature, my_firmwareTable, BufferSize);
+	LOQ_nonzero("device", "p", "pFirmwareTableEnumBuffer", pFirmwareTableEnumBuffer);
 	
-	return (UINT)-1;
+	return (UINT)-1;	//TODO: Find a better solution
+}
+
+HOOKDEF(UINT, WINAPI, GetSystemFirmwareTable,
+	__in     DWORD FirmwareTableProviderSignature,
+	__in     DWORD FirmwareTableID,
+	__out    PVOID pFirmwareTableBuffer,
+	__in     DWORD BufferSize
+) {
+	// Substitute pFirwareTableBuffer
+	PBYTE my_firmwareTable = (PBYTE) (malloc(BufferSize));
+
+	UINT ret = Old_GetSystemFirmwareTable(FirmwareTableProviderSignature, FirmwareTableID, my_firmwareTable, BufferSize);
 	
+	LOQ_nonzero("device", "p", "pFirmwareTableBuffer", pFirmwareTableBuffer);
+
+	return (UINT)0;
 }
 
 HOOKDEF(NTSTATUS, WINAPI, NtSetInformationProcess,
