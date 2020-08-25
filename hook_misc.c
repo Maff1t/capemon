@@ -695,6 +695,18 @@ HOOKDEF(void, WINAPI, GetSystemInfo,
 	return;
 }
 
+HOOKDEF(UINT, WINAPI, EnumSystemFirmwareTables,
+	__in    DWORD FirmwareTableProviderSignature,
+	__out   PVOID pFirmwareTableEnumBuffer,
+	__in    DWORD BufferSize
+) {
+	UINT ret = Old_EnumSystemFirmwareTables(FirmwareTableProviderSignature, pFirmwareTableEnumBuffer, BufferSize);
+	LOQ_nonzero("system", "p", "pFirmwareTableEnumBuffer", pFirmwareTableEnumBuffer);
+	
+	return (UINT)-1;
+	
+}
+
 HOOKDEF(NTSTATUS, WINAPI, NtSetInformationProcess,
 	__in HANDLE ProcessHandle,
 	__in PROCESSINFOCLASS ProcessInformationClass,

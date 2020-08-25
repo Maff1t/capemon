@@ -1426,6 +1426,12 @@ extern HOOKDEF(void, WINAPI, GetSystemInfo,
 	__out LPSYSTEM_INFO lpSystemInfo
 );
 
+extern HOOKDEF(UINT, WINAPI, EnumSystemFirmwareTables,
+    __in    DWORD FirmwareTableProviderSignature,
+    __out   PVOID pFirmwareTableEnumBuffer,
+    __in    DWORD BufferSize
+);
+
 extern HOOKDEF(NTSTATUS, WINAPI, RtlDecompressBuffer,
 	__in USHORT CompressionFormat,
 	__out PUCHAR UncompressedBuffer,
